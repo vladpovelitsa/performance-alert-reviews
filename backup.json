@@ -1,0 +1,18 @@
+{
+  "__collections__": {
+    "users": {
+      "Nwr3tyLqX6fo9mroEFJ13hI7I2K2": {
+        "uid": "Nwr3tyLqX6fo9mroEFJ13hI7I2K2",
+        "nextReviewGoals": "",
+        "lastReviewNotice": "",
+        "name": "Admin",
+        "nextReview": 1693504704655,
+        "lastReview": "1685728704655",
+        "admin": true,
+        "position": "Main Administrator UPD",
+        "email": "admin@test.com",
+        "__collections__": {}
+      }
+    }
+  }
+}
