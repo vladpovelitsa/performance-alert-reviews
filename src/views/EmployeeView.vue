@@ -26,10 +26,6 @@ const deleteUser = async () => {
 };
 </script>
 <template>
-
-  <pre>
-    {{ user }}
-  </pre>
   <form class="user-form">
     <app-input
       input-name="name"
