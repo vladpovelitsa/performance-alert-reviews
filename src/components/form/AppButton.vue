@@ -2,22 +2,20 @@
 defineProps({
   buttonType: {
     type: String,
-    default: 'submit'
+    default: "submit"
   },
   buttonLabel: {
     type: String,
-    default: 'Send'
+    default: "Send"
   }
-})
+});
 </script>
-
 <template>
   <button :type="buttonType">
     {{ buttonLabel }}
   </button>
 </template>
-
-<style scoped>
+<style scoped lang="scss">
 button {
   display: block;
   width: min-content;
@@ -32,7 +30,16 @@ button {
   border: none;
   transition: 0.3s;
   cursor: pointer;
+
+  &.--danger {
+    background: red;
+  }
+
+  &.--warning {
+    background: darkorange;
+  }
 }
+
 button:hover {
   opacity: 0.7;
 }

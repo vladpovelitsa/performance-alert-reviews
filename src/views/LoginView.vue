@@ -1,49 +1,53 @@
 <script setup>
-import AppInput from '@/components/form/AppInput.vue'
-import AppButton from '@/components/form/AppButton.vue'
-import { useRouter } from 'vue-router'
-import { ref } from 'vue'
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { setDoc, doc } from 'firebase/firestore'
-import { db } from '@/firebase'
+import AppInput from "@/components/form/AppInput.vue";
+import AppButton from "@/components/form/AppButton.vue";
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword
+} from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
+import { db } from "@/firebase";
 
-const router = useRouter()
+const router = useRouter();
 const user = ref({
-  email: '',
-  pass: ''
-})
-let nameError = ref(null)
-let passError = ref(null)
+  email: "",
+  pass: ""
+});
+let nameError = ref(null);
+let passError = ref(null);
 
-const login = function () {
+const login = function() {
   signInWithEmailAndPassword(getAuth(), user.value.email, user.value.pass)
     .then(() => {
       router.push({
-        name: 'employee',
+        name: "employee",
         params: { id: getAuth().currentUser.uid }
-      })
+      });
     })
     .catch((err) => {
-      if (err.message.toString().includes('wrong-password')) {
-        passError.value = 'invalid password'
+      if (err.message.toString().includes("wrong-password")) {
+        passError.value = "invalid password";
       }
-    })
-}
-const register = function () {
+    });
+};
+const register = function() {
   createUserWithEmailAndPassword(getAuth(), user.value.email, user.value.pass)
     .then((cred) => {
-      setDoc(doc(db, 'users', cred.user.uid), {
+      setDoc(doc(db, "users", cred.user.uid), {
         uid: cred.user.uid,
         email: cred.user.email
-      })
+      });
     })
     .then(() => {
-      router.push('/registration')
+      router.push("/registration");
     })
     .catch((err) => {
-      alert(err)
-    })
-}
+      alert(err);
+    });
+};
 </script>
 <template>
   <form @submit.prevent>
@@ -69,20 +73,24 @@ const register = function () {
 </template>
 <style scoped>
 form {
-  width: 100vw;
-  max-width: 300px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #eee;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+    width: 100vw;
+    max-width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #eee;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
 
 h2 {
-  text-align: center;
-  margin: 0 0 25px;
-  width: 100%;
+    text-align: center;
+    margin: 0 0 25px;
+    width: 100%;
+}
+
+button {
+    margin-top: 20px;
 }
 </style>

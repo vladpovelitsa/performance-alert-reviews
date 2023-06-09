@@ -82,11 +82,13 @@ const deleteUser = async () => {
     />
     <app-button
       :button-label="isEditing ? 'Save' : 'Edit'"
+      :class="[{'--warning': !isEditing}]"
       @click.prevent="[(isEditing = !isEditing), !isEditing ? updateUser() : null]"
     />
     <app-button
       button-label="Delete user"
       @click.prevent="deleteUser"
+      class="--danger"
     />
   </form>
 </template>

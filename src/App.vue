@@ -2,6 +2,7 @@
 import { onMounted, ref } from "vue";
 import { RouterLink, RouterView, useRouter } from "vue-router";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import AppButton from "@/components/form/AppButton.vue";
 
 let router = useRouter();
 const isLoggedIn = ref(false);
@@ -32,19 +33,25 @@ const logOutHandler = () => {
     <nav>
       <RouterLink to="/"> Home</RouterLink>
       |
-      <RouterLink :to="{ name: 'registration' }"> Add new user</RouterLink>
+      <RouterLink v-if="isLoggedIn " :to="{ name: 'registration' }"> Add new
+        user
+      </RouterLink>
     </nav>
     <span v-if="isLoggedIn">
       <router-link :to="{ name: 'employee', params: { id: getAuth().currentUser.uid } }">
         {{ userEmail }}
       </router-link>
-      <button @click="logOutHandler">log out</button>
+      <app-button
+        @click="logOutHandler"
+        class="--warning"
+        button-label="Log out"
+      />
     </span>
     <span v-else>
       <RouterLink
         to="/login"
         v-if="$route.name !== 'login'"
-      > Log in </RouterLink>
+      > <app-button button-label="Log in" /> </RouterLink>
     </span>
   </header>
   <RouterView />
