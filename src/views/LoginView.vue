@@ -1,70 +1,68 @@
 <script setup>
-import AppInput from "@/components/form/AppInput.vue";
-import AppButton from "@/components/form/AppButton.vue";
-import { useRouter } from "vue-router";
-import { ref } from "vue";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  signInWithEmailAndPassword
-} from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
-import { db } from "@/firebase";
+import AppInput from '@/components/form/AppInput.vue'
+import AppButton from '@/components/form/AppButton.vue'
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { setDoc, doc } from 'firebase/firestore'
+import { db } from '@/firebase'
 
-const router = useRouter();
+const router = useRouter()
 const user = ref({
-  email: "",
-  pass: ""
-});
-let nameError = ref(null);
-let passError = ref(null);
+  email: '',
+  pass: ''
+})
+let nameError = ref(null)
+let passError = ref(null)
 
-const login = function() {
+const login = function () {
   signInWithEmailAndPassword(getAuth(), user.value.email, user.value.pass)
     .then(() => {
       router.push({
-        name: "employee",
+        name: 'employee',
         params: { id: getAuth().currentUser.uid }
-      });
-    }).catch((err) => {
-    if (err.message.toString().includes("wrong-password")) {
-      passError.value = "invalid password";
-    }
-  });
-};
-const register = function() {
+      })
+    })
+    .catch((err) => {
+      if (err.message.toString().includes('wrong-password')) {
+        passError.value = 'invalid password'
+      }
+    })
+}
+const register = function () {
   createUserWithEmailAndPassword(getAuth(), user.value.email, user.value.pass)
     .then((cred) => {
-      setDoc(doc(db, "users", cred.user.uid), {
+      setDoc(doc(db, 'users', cred.user.uid), {
         uid: cred.user.uid,
         email: cred.user.email
-      });
-    }).then(() => {
-    router.push("/registration");
-
-  }).catch((err) => {
-    alert(err);
-  });
-};
+      })
+    })
+    .then(() => {
+      router.push('/registration')
+    })
+    .catch((err) => {
+      alert(err)
+    })
+}
 </script>
 <template>
   <form @submit.prevent>
-    <h2>
-      Log in
-    </h2>
-    <app-input :error-text="nameError"
-               input-name="login"
-               label="Login"
-               placeholder="enter your email"
-               @custom-input="(data) => user.email =
-               data" />
-    <app-input :error-text="passError"
-               input-name="pass"
-               label="Password"
-               placeholder="enter your password"
-               type="password"
-               @custom-input="(data) => user.pass =
-               data" />
+    <h2>Log in</h2>
+    <app-input
+      :error-text="nameError"
+      input-name="login"
+      label="Login"
+      placeholder="enter your email"
+      @custom-input="(data) => (user.email = data)"
+    />
+    <app-input
+      :error-text="passError"
+      input-name="pass"
+      label="Password"
+      placeholder="enter your password"
+      type="password"
+      @custom-input="(data) => (user.pass = data)"
+    />
     <app-button button-label="Enter" @click.prevent="login" />
     <app-button button-label="Register" @click.prevent="register" />
   </form>

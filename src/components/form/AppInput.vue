@@ -23,62 +23,69 @@ defineProps({
     type: Boolean,
     default: false
   },
-  value: {
-    type: String
-  }
+  modelValue: [String, Number]
 });
 </script>
 <template>
   <label>
     <span class="label">
       {{ label }}
-    </span> <input :disabled="disabled" :value="value"
-                   :class="[{'--error': errorText}, 'input']"
-                   :type="type"
-                   :name="inputName"
-                   :placeholder="placeholder"
-                   @input="$emit('custom-input', $event.target.value)"
-                   v-if="type !== 'textarea'"
-  > <textarea :disabled="disabled" :value="value"
-              :class="[{'--error': errorText}, 'input']"
-              :name="inputName"
-              :placeholder="placeholder"
-              @input="$emit('custom-input', $event.target.value)"
-              v-else></textarea> <span class="error" v-if="errorText">
+    </span>
+    <input
+      v-if="type !== 'textarea'"
+      :class="[{ '--error': errorText }, 'input']"
+      :disabled="disabled"
+      :name="inputName"
+      :placeholder="placeholder"
+      :type="type"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
+    <textarea
+      v-else
+      :class="[{ '--error': errorText }, 'input']"
+      :disabled="disabled"
+      :name="inputName"
+      :placeholder="placeholder"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+    ></textarea>
+    <span v-if="errorText" class="error">
       {{ errorText }}
-    </span> </label>
+    </span>
+  </label>
 </template>
 <style scoped>
 label {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  gap: 10px;
-  max-width: 100%;
-  margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 10px;
+    max-width: 100%;
+    margin-bottom: 0;
 }
 
 input {
-  padding: 10px;
+    padding: 10px;
 }
 
 textarea {
-  resize: none;
-  height: 100px;
+    resize: none;
+    height: 100px;
 }
 
 .--error {
-  border: 5px solid red;
+    border: 5px solid red;
 }
 
 .label {
-  font-weight: 500;
+    font-weight: 500;
 }
 
 .error {
-  color: red;
-  position: absolute;
-  top: 100%;
-  left: 10px;
+    color: red;
+    position: absolute;
+    top: 100%;
+    left: 10px;
 }
 </style>

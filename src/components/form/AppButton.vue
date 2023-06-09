@@ -6,14 +6,14 @@ defineProps({
   },
   buttonLabel: {
     type: String,
-    default: 'Send',
+    default: 'Send'
   }
 })
 </script>
 
 <template>
   <button :type="buttonType">
-    {{buttonLabel}}
+    {{ buttonLabel }}
   </button>
 </template>
 
@@ -27,13 +27,13 @@ button {
   text-transform: uppercase;
   border-radius: 20px;
   background: forestgreen;
-  color:#fff;
+  color: #fff;
   font-weight: 700;
   border: none;
-  transition: .3s;
+  transition: 0.3s;
   cursor: pointer;
 }
 button:hover {
-  opacity: .7;
+  opacity: 0.7;
 }
 </style>
